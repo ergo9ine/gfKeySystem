@@ -1,6 +1,6 @@
 # [gfKeySytstem.github.io](https://ergo9ine.github.io/gfKeySystem/)
 
-![미리보기](https://github.com/ergo9ine/gf-spine-simulator/blob/master/images/preview.png)
+![미리보기](https://raw.githubusercontent.com/ergo9ine/gfKeySystem/master/img/priview.png)
 
 소녀전선 키시스템 이벤트 확률을 계산하고 마음의 평화를 되찾자
 
