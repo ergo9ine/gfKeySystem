@@ -6,18 +6,18 @@
 	<meta name="author" content="">
 	<link rel="icon" href="img/res.png">
 	<!-- 카카오톡 출력용 -->
-	<meta property="og:url" content="https://gfkeysytstem.github.io/">
-	<meta property="og:image" content="https://gfkeysystem.github.io/740X236.jpg">
+	<meta property="og:url" content="https://sf2031.com/">
+	<meta property="og:image" content="https://sf2031.com/img/740X236.jpg">
 	<meta property="og:title" content="소녀전선 키이벤트 확률 계산">
 	<meta property="og:description" content="중복이라고 걱정하지 마세요">
 	<!-- 페이스북 출력 이미지 -->
-	<meta property="me2:image" content="https://gfkeysytstem.github.io/740X236.jpg">
+	<meta property="me2:image" content="https://sf2031.com/img/740X236.jpg">
 	<!-- 트위터 출력용 -->
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:creator" content="핫산">
+	<meta name="twitter:creator" content="SFDB Team">
 	<meta name="twitter:site" content="키이벤트 확률 계산">
 	<meta name="twitter:title" content="소녀전선 키이벤트 확률 계산">
-	<meta name="twitter:image" content="https://gfkeysystem.github.io/740X236.jpg">
+	<meta name="twitter:image" content="https://sf2031.com/img/740X236.jpg">
 	<meta name="twitter:description" content="중복이라고 걱정하지 마세요">
 	<title>소녀전선 키이벤트 확률 계산</title>
 	<!-- Bootstrap core CSS -->
@@ -107,7 +107,7 @@
 			<div class="input-group-prepend"><span class="input-group-text">시행 횟수</span></div>
 			<input type="number" class="form-control" id="p-n" placeholder="84번=14일">
 		</div>
-		<div class="input-group mt-2"">
+		<div class="input-group mt-2">
 			<div class="input-group-prepend"><span class="input-group-text">결과 출력 주기</span></div>
 			<input type="number" class="form-control" id="p-show" placeholder="6개마다=1일">
 		</div>
@@ -183,39 +183,35 @@
 	<script>
 		var tdlist=$("#bingo>tbody>tr>td");
 		tdlist.click(function(){$(this).toggleClass("bg-warning")})
-		$("#allr").click(()=>{$("#bingo .bg-warning").each(function(){$(this).removeClass("bg-warning")})}); // all remove
-		$("#alla").click(()=>{$(".border .border-secondary").each(function(){$(this).removeClass("bg-warning").addClass("bg-warning")})}); // all add
-		$("#resdel").click(function(){$("#res").empty()}); //resDelete
+		$("#allr").click(()=>{$("#bingo .bg-warning").each(function(){$(this).removeClass("bg-warning")})});// all remove
+		$("#alla").click(()=>{$(".border .border-secondary").each(function(){$(this).removeClass("bg-warning").addClass("bg-warning")})});// all add
+		$("#resdel").click(function(){$("#res").empty()});//resDelete
 		$("#run").on("click",function() {
 		// get params
 		var day=$("#p-day").val();
 		if(day===""){day=14};
-		//console.log("잔여일수 "+day)
 		var ticket=$("#p-ticket").val();
 		if(ticket===""){ticket=6};
-		//console.log("하루 해독 횟수 "+ticket)
 		var n=$("#p-n").val();
 		if(n===""){n=84};
-		//console.log("시행 횟수 "+n)
 		var show=$("#p-show").val();
 		if(show===""){show=6};
-		//console.log("결과 출력 주기 "+show)
 		var d=$("#p-d").val()/10;
 		var sum=0
 		var loser=0
 		var sum_d=0
 		var dp=0
 		// run
-		for(t=1; t <= n; t++){
+		for(t=1;t <= n;t++){
 			var fail=0
 			var cnt=0
 			var ary=new Array(37)
-			for(i=1; i <= 36; i++){ary[i]=0}
+			for(i=1;i <= 36;i++){ary[i]=0}
 			$("#bingo .bg-warning").each(function(){
 				ary[$(this).attr("data-value")]=1
 				cnt++
 			})
-			for(i=1; i <= day * ticket; i++){
+			for(i=1;i <= day * ticket;i++){
 			if(cnt >= 36) break
 			var tmp=Math.floor((Math.random() * 36) + 1)
 			if(ary[tmp] == 1){fail++ }
@@ -228,7 +224,7 @@
 			sum_d += fail
 			// print
 			if(t%show == 0){
-			$("#res").prepend(`<div class="alert alert-primary" role="alert">${t}번 수행<br>평균 빈칸 수 : ${36-(sum/t)*1}개<br>14빙고 실패 확률 : ${loser/t*100}%<br>앞으로 흭득하게 될 중복 포인트의 평균 : ${(sum_d)/t*10}포인트</div>`)
+				$("#res").prepend(`<div class="alert alert-primary" role="alert">${t}번 수행<br>평균 빈칸 수 : ${36-(sum/t)*1}개<br>14빙고 실패 확률 : ${loser/t*100}%<br>앞으로 흭득하게 될 중복 포인트의 평균 : ${(sum_d)/t*10}포인트</div>`)
 			}
 		}
 		});
