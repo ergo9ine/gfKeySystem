@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko"><head>
-	<meta charset="utf-8">
+	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<meta name="keywords" content="소녀전선,소전,GFL,girls' frontline,db,database,디비,데이터베이스,시뮬레이터,계산기,simulator,calcurator">
+	<meta name="description" content="Girls' FrontLine Bingo Calculator">
 	<link rel="icon" href="img/res.png">
 	<!-- 카카오톡 출력용 -->
-	<meta property="og:url" content="https://sf2031.com/">
-	<meta property="og:image" content="https://sf2031.com/img/740X236.jpg">
-	<meta property="og:title" content="소녀전선 빙고 이벤트 확률 계산">
+	<meta property="og:site_name" content="Girls' FrontLine Bingo Simulator">
+	<meta property="og:url" content="/">
+	<meta property="og:image" content="img/740X236.jpg">
+	<meta property="og:title" content="Girls' FrontLine Bingo Calculator">
 	<meta property="og:description" content="중복이라고 걱정하지 마세요">
 	<!-- 페이스북 출력 이미지 -->
-	<meta property="me2:image" content="https://sf2031.com/img/740X236.jpg">
+	<meta property="me2:image" content="img/740X236.jpg">
 	<!-- 트위터 출력용 -->
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:creator" content="SFDB Team">
-	<meta name="twitter:site" content="빙고 이벤트 확률 계산">
-	<meta name="twitter:title" content="소녀전선 빙고 이벤트 확률 계산">
-	<meta name="twitter:image" content="https://sf2031.com/img/740X236.jpg">
+	<meta name="twitter:site" content="Girls' FrontLine Bingo Calculator">
+	<meta name="twitter:title" content="Bingo Calculator">
+	<meta name="twitter:image" content="img/740X236.jpg">
 	<meta name="twitter:description" content="중복이라고 걱정하지 마세요">
-	<title>소녀전선 빙고 이벤트 확률 계산</title>
+	<title>Girls' FrontLine Bingo Calculator</title>
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css">
-  </head>
+</head>
   <body>
 	<nav class="navbar navbar-dark bg-warning text-dark">
 		<a class="navbar-brand">소녀전선 빙고 이벤트 확률 계산기</a>
@@ -108,15 +108,13 @@
 		</div>
 		<div>
 			<div><span>결과 출력 주기</span></div>
-			<input type="number" class="form-control" id="p-show" placeholder="6개마다=1일">
+			<input type="number" class="form-control" id="p-show" placeholder="6개마다">
 		</div>
 		</div>
 	</div>
 	<div class="col-xs-12 col-sm-8 mx-auto mt-2">
 	<button id="resdel" type="button" class="btn btn-info col">결과 지우기</button>
-	<div id="res">
-		<div class="alert alert-dark" role="alert">결과는 여기에 출력됩니다.</div>
-	</div>
+	<div id="res"><div class="alert alert-dark" role="alert">결과는 여기에 출력됩니다.</div></div>
 	</div>
 	<!-- Modal -->
 	<div class="modal fade" id="expModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -180,16 +178,17 @@
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
+		$("input").attr("min","0")
 		$("#bingo").css({"width":"320px","height":"320px"});
 		$("#bingo>tbody>tr").addClass("border border-0").find("td").addClass("border border-secondary");
 		$("#run,#resdel,#run~button").addClass("my-1");
 		$("#alla~div").addClass("input-group mt-2").find("div").addClass("input-group-prepend").find("span").addClass("input-group-text");
 		var tdlist=$("#bingo>tbody>tr>td");
 		tdlist.click(function(){$(this).toggleClass("bg-warning")})
-		$("#allr").click(()=>{$("#bingo .bg-warning").each(function(){$(this).removeClass("bg-warning")})});// all remove
-		$("#alla").click(()=>{$(".border .border-secondary").each(function(){$(this).removeClass("bg-warning").addClass("bg-warning")})});// all add
+		$("#allr").click(()=>{$("#bingo .bg-warning").each(function(){$(this).removeClass("bg-warning")})});//all remove
+		$("#alla").click(()=>{$(".border .border-secondary").each(function(){$(this).removeClass("bg-warning").addClass("bg-warning")})});//all add
 		$("#resdel").click(function(){$("#res").empty()});//resDelete
-		$("#run").on("click",function() {
+		$("#run").on("click",function(){
 		// get params
 		var day=$("#p-day").val();
 		if(day===""){day=14};
@@ -199,34 +198,27 @@
 		if(n===""){n=84};
 		var show=$("#p-show").val();
 		if(show===""){show=6};
-		var d=$("#p-d").val()/10;
-		var sum=0
-		var loser=0
-		var sum_d=0
-		var dp=0
+		var d=$("#p-d").val()/10,sum=0,loser=0,sum_d=0,dp=0;
 		// run
-		for(t=1;t <= n;t++){
-			var fail=0
-			var cnt=0
-			var ary=new Array(37)
-			for(i=1;i <= 36;i++){ary[i]=0}
+		for(t=1;t<=n;t++){
+			var fail=0,cnt=0,ary=new Array(37);
+			for(i=1;i<=36;i++){ary[i]=0}
 			$("#bingo .bg-warning").each(function(){
 				ary[$(this).attr("data-value")]=1
 				cnt++
-			})
-			for(i=1;i <= day * ticket;i++){
-			if(cnt >= 36) break
-			var tmp=Math.floor((Math.random() * 36) + 1)
-			if(ary[tmp] == 1){fail++ }
-				else {cnt ++ }
+			});
+			for(i=1;i<=day*ticket;i++){
+				if(cnt>=36){break}
+				var tmp=Math.floor((Math.random()*36)+1);
+				if(ary[tmp]==1){fail++}
+				else{cnt++}
 				ary[tmp]=1
-			}
-			fail=fail + d
-			if(cnt < 36 && (fail / 10) < (36 - cnt)) loser++
-			sum += cnt
-			sum_d += fail
+			};
+			fail=fail+d;
+			if(cnt<36&&(fail/10)<(36-cnt)){loser++}
+			sum+=cnt,sum_d+=fail;
 			// print
-			if(t%show == 0){
+			if(t%show==0){
 				$("#res").prepend(`<div class="alert alert-primary" role="alert">${t}번 수행<br>평균 빈칸 수 : ${36-(sum/t)*1}개<br>14빙고 실패 확률 : ${loser/t*100}%<br>앞으로 흭득하게 될 중복 포인트의 평균 : ${(sum_d)/t*10}포인트</div>`)
 			}
 		}
