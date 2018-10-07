@@ -7,7 +7,7 @@
 ## gfKeySytstem
 
  * 오리지날 URL [hyunjun529](https://github.com/hyunjun529) - [https://github.com/gfKeySystem/gfKeySystem.github.io](https://github.com/gfKeySystem/gfKeySystem.github.io)
- * 커스텀버전  URL [ergo9ine](https://github.com/ergo9ine) - [https://ergo9ine.github.io/gf-spine-simulator/](https://github.com/SFDB-Team/gf-bingo-calcurator)
+ * 커스텀버전  URL [ergo9ine](https://github.com/ergo9ine) - [https://SFDB-Team.github.io/gf-bingo-calcurator/](https://github.com/SFDB-Team/gf-bingo-calcurator)
 
 
 ## License
