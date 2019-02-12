@@ -71,31 +71,31 @@
 		<div class="alert alert-danger"><button type="button" class="btn btn-danger" @click="modal">※사용법</button> - 클릭해서 읽어보세요!</div>
 		<bingo></bingo>
 		<div class="col-xs-12 col-sm-8 mx-auto mt-4 row">
-		<button id="run" type="button" class="btn btn-primary col">시작!</button>
-		<button id="allr" type="button" class="btn btn-danger col-lg-2 mx-lg-1">모두지우기</button>
-		<button id="alla" type="button" class="btn btn-success col-lg-2">모두채우기</button>
+		<button type="button" class="btn btn-primary col" @click="run">시작!</button>
+		<button type="button" class="btn btn-danger col-lg-2 mx-lg-1" @click="allr" >모두지우기</button>
+		<button type="button" class="btn btn-success col-lg-2" @click="alla">모두채우기</button>
 		<!-- Params -->
 		<div>
 			<div><span>잔여 일수</span></div>
-			<input type="number" class="form-control" id="p-day" placeholder="14일">
+			<input type="number" class="form-control" placeholder="14일" v-model="day">
 		</div>
 		<div>
 			<div><span>일일 해독 횟수</span></div>
-			<input type="number" class="form-control" id="p-ticket" placeholder="6번">
+			<input type="number" class="form-control" placeholder="6번" v-model="ticket">
 		</div>
 		<div>
 			<div><span>현재 중복 포인트</span></div>
-			<input type="number" class="form-control" id="p-d" placeholder="0포인트">
+			<input type="number" class="form-control" placeholder="0포인트" v-model="d">
 		</div>
 		<div>
 			<div><span>수행 횟수</span></div>
-			<input type="number" class="form-control" id="p-n" placeholder="10000번">
+			<input type="number" class="form-control" placeholder="10000번" v-model="n">
 		</div>
 		<div>
 			<div><span>결과 출력 주기</span></div>
-			<input type="number" class="form-control" id="p-show" placeholder="2500개마다">
+			<input type="number" class="form-control" placeholder="2500개마다" v-model="show">
 		</div>
-		<button id="resdel" type="button" class="btn btn-info col">결과 지우기</button>
+		<button type="button" class="btn btn-info col" @click="resdel">결과 지우기</button>
 		<div id="res" class="col-12"><div class="alert alert-dark col" role="alert">결과는 여기에 출력됩니다.</div></div>
 		</div>
 	</div>
@@ -121,7 +121,7 @@
 		</div>
 	</transition>
 </script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.5/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.5/dist/vue.js"></script>
 <script>
 Vue.component('modal', {
 	template: '#modal-template',
@@ -151,22 +151,48 @@ Vue.component('bingo', {
 				a.addEventListener("click",e=>e.target.classList.toggle("bg-warning"))
 			}
 		};
-		for(i of document.querySelectorAll("#run,#resdel,#run~button")) i.classList.add("my-1");
-		for(i of document.querySelectorAll("#alla~div")){
+		for(i of document.querySelectorAll(".container>div:nth-child(3)>button")) i.classList.add("my-1");
+		for(i of document.querySelectorAll(".container>div:nth-child(3)>div")){
 			i.classList.add("input-group","mt-2");
 			i.querySelector("div").classList.add("input-group-prepend");
 			if(i.querySelector("span")){i.querySelector("span").classList.add("input-group-text")}
 		};
-		document.getElementById("allr").addEventListener("click",()=>{for(i of document.querySelectorAll(".border-0>td")) i.classList.remove("bg-warning")});
-		document.getElementById("alla").addEventListener("click",()=>{for(i of document.querySelectorAll(".border-0>td")) i.classList.add("bg-warning")});
-		document.getElementById("resdel").addEventListener("click",()=>document.getElementById("res").innerHTML="");
-		document.getElementById("run").addEventListener("click",()=>{
+	},
+});
+var app = new Vue({
+	el: "#app",
+	data: {
+		showModal: false,
+		day:"",
+		ticket:"",
+		d:"",
+		n:"",
+		show:"",
+	},
+	methods: {
+		modal: function(){
+			this.showModal = true
+		},
+		allr: function(){
+			for(i of this.el.querySelectorAll(".border-0>td")){
+				i.classList.remove("bg-warning")
+			}
+		},
+		alla: function(){
+			for(i of this.el.querySelectorAll(".border-0>td")){
+				i.classList.add("bg-warning")
+			}
+		},
+		resdel: function(){
+			this.el.getElementById("res").innerHTML=""
+		},
+		run: function(){
 			// get params
-			var day=document.getElementById("p-day").value||14,
-				ticket=document.getElementById("p-ticket").value||6,
-				d=document.getElementById("p-d").value/10||0,
-				n=document.getElementById("p-n").value||1e4,
-				show=document.getElementById("p-show").value||2500,sum=0,loser=0,sum_d=0,dp=0;
+			var day=this.day||14
+				ticket=this.ticket||6
+				d=this.d||0
+				n=this.n||1e4
+				show=this.show||2500,sum=0,loser=0,sum_d=0,dp=0;
 			// run
 			for(t=1;t<=n;t++){
 				var fail=0,cnt=0,ary=[];
@@ -175,25 +201,14 @@ Vue.component('bingo', {
 				for(i=1;i<=day*ticket&&cnt<36;i++){
 					if(cnt>=36) break;
 					var tmp=Math.floor(36*Math.random()+1);
-					1==ary[tmp]?fail++:cnt++,ary[tmp]=1;
+					1==ary[tmp]?fail++:cnt++,ary[tmp]=1
 				}
 				fail=fail+d;
 				36>cnt&&fail/10<36-cnt&&loser++;
 				sum+=cnt,sum_d+=fail;
 				// print
-				t%show==0&&document.getElementById("res").insertAdjacentHTML("afterbegin",`<div class="alert alert-primary col-12" role="alert">${t}번 수행<br>평균 빈칸 수 ${36-sum/t*1|0}개<br>올빙고 실패 확률 : ${loser/t*100}%<br>앞으로 획득하게 될 중복 포인트의 평균 : ${sum_d/t*10|0}포인트</div>`);
+				t%show==0&&document.getElementById("res").insertAdjacentHTML("afterbegin",`<div class="alert alert-primary col-12" role="alert">${t}번 수행<br>평균 빈칸 수 ${36-sum/t*1|0}개<br>올빙고 실패 확률 : ${loser/t*100}%<br>앞으로 획득하게 될 중복 포인트의 평균 : ${sum_d/t*10|0}포인트</div>`)
 			}
-		})
-	}
-});
-var app = new Vue({
-	el: "#app",
-	data: {
-		showModal: false,
-	},
-	methods: {
-		modal: function(){
-			this.showModal = true;
 		},
 	},
 })
