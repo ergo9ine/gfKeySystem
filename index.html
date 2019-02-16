@@ -32,11 +32,11 @@
 		height: 100%;
 		background-color: rgba(0, 0, 0, .5);
 		display: table;
-		transition: opacity .3s ease;
+		transition: opacity .3s ease
 	}
 	.modal-wrapper {
 		display: table-cell;
-		vertical-align: middle;
+		vertical-align: middle
 	}
 	.modal-container {
 		max-width:100%;
@@ -45,11 +45,11 @@
 		background-color: #fff;
 		border-radius: 2px;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-		transition: all .3s ease;
+		transition: all .3s ease
 	}
 	.modal-header h3 {
 		margin-top: 0;
-		color: #42b983;
+		color: #42b983
 	}
 	.modal-body{margin: 20px 0}
 	.modal-default-button {float: right}
@@ -58,7 +58,7 @@
 	.modal-enter .modal-container,
 	.modal-leave-active .modal-container {
 		-webkit-transform: scale(1.1);
-		transform: scale(1.1);
+		transform: scale(1.1)
 	}
 	</style>
 </head>
@@ -75,26 +75,11 @@
 		<button type="button" class="btn btn-danger col-lg-2 mx-lg-1" @click="allr" >모두지우기</button>
 		<button type="button" class="btn btn-success col-lg-2" @click="alla">모두채우기</button>
 		<!-- Params -->
-		<div>
-			<div><span>잔여 일수</span></div>
-			<input type="number" class="form-control" placeholder="14일" v-model="day">
-		</div>
-		<div>
-			<div><span>일일 해독 횟수</span></div>
-			<input type="number" class="form-control" placeholder="6번" v-model="ticket">
-		</div>
-		<div>
-			<div><span>현재 중복 포인트</span></div>
-			<input type="number" class="form-control" placeholder="0포인트" v-model="d">
-		</div>
-		<div>
-			<div><span>수행 횟수</span></div>
-			<input type="number" class="form-control" placeholder="10000번" v-model="n">
-		</div>
-		<div>
-			<div><span>결과 출력 주기</span></div>
-			<input type="number" class="form-control" placeholder="2500개마다" v-model="show">
-		</div>
+		<depot txt="잔여 일수" place="14일" id="day"></depot>
+		<depot txt="일일 해독 횟수" place="6번" id="ticket"></depot>
+		<depot txt="현재 중복 포인트" place="0포인트" id="d"></depot>
+		<depot txt="수행 횟수" place="10000번" id="n"></depot>
+		<depot txt="결과 출력 주기" place="2500개마다" id="show"></depot>
 		<button type="button" class="btn btn-info col" @click="resdel">결과 지우기</button>
 		<div id="res" class="col-12"><div class="alert alert-dark col" role="alert">결과는 여기에 출력됩니다.</div></div>
 		</div>
@@ -109,10 +94,10 @@
 					<div class="modal-header"><slot name="header">설명충</slot></div>
 					<div class="modal-body">
 					<div v-if="displaytext === 1">
-						<div class="jumbotron"><h1></h1><p class="lead text-center"><a href="http://cafe.naver.com/girlsfrontlinekr/408268"><img class="img-fluid" src="img/740X236.jpg"></a><ol><li>현재 자신의 빙고판을 터치로 입력한다</li><li>숫자는 달라도 상관없고 모양만 같으면 된다.</li><li>시작!을 누른다.</li></ol></p><button type="button" class="btn btn-info" @click=" displaytext = 2">원리 및 입력칸에 대한 설명</button></div>
+						<div class="jumbotron"><h1></h1><p class="lead text-center"><a href="http://cafe.naver.com/girlsfrontlinekr/408268"><img class="img-fluid" src="img/740X236.jpg"></a><ol><li>현재 자신의 빙고판을 터치로 입력한다</li><li>숫자는 달라도 상관없고 모양만 같으면 된다.</li><li>시작!을 누른다.</li></ol></p><button type="button" class="btn btn-info" @click="displaytext = 2">원리 및 입력칸에 대한 설명</button></div>
 					</div>
 					<div v-else>
-						<p>앞으로 빙고가 어떻게 진행될지 n번 임의로 시행한다<br>자세한 설명은 생략한다(<a href="https://ko.wikipedia.org/wiki/%EB%AA%AC%ED%85%8C%EC%B9%B4%EB%A5%BC%EB%A1%9C_%EB%B0%A9%EB%B2%95">몬테카를로 시뮬레이션</a>)<br><br><br><b>잔여 일수</b> : 빙고 이벤트 마감까지 남은 일수<br><br><b>일일 해독 횟수</b> : 남은 일수동안 하루에 시도하는 난수해독 횟수<br><br><b>현재 중복 포인트</b> : 현재 보유하고 있는 중복 포인트의 량<br><br><b>수행 횟수</b> : 잔여 일수x일일 해독 횟수의 계산을 몇번 수행해서 평균을 낼지<br><br><b>결과 출력 주기</b> : 시행 횟수를 몇번에 나눠 걸쳐서 출력시킬지<br><br><br><br><b>n번 수행</b> : 잔여 일수x일일 해독 횟수 출력를 몇번 수행한 값인지, 기본 2500회마다 출력<br><br><b>평균 빈칸 수</b> : 마지막까지 난수해독만 한 후 생기는 빈칸.<br><br><b>14빙고 실패 확률</b> : 확정해독을 포함해서 14빙고(모든 칸 채우기)를 실패하는지 계산한다.</p>
+						<p>앞으로 빙고가 어떻게 진행될지 n번 임의로 시행한다<br>자세한 설명은 생략한다(<a href="https://ko.wikipedia.org/wiki/%EB%AA%AC%ED%85%8C%EC%B9%B4%EB%A5%BC%EB%A1%9C_%EB%B0%A9%EB%B2%95">몬테카를로 시뮬레이션</a>)<br><br><b>잔여 일수</b> : 빙고 이벤트 마감까지 남은 일수<br><b>일일 해독 횟수</b> : 남은 일수동안 하루에 시도하는 난수해독 횟수<br><b>현재 중복 포인트</b> : 현재 보유하고 있는 중복 포인트의 량<br><b>수행 횟수</b> : 잔여 일수x일일 해독 횟수의 계산을 몇번 수행해서 평균을 낼지<br><b>결과 출력 주기</b> : 시행 횟수를 몇번에 나눠 걸쳐서 출력시킬지<br><br><b>n번 수행</b> : 잔여 일수x일일 해독 횟수 출력를 몇번 수행한 값인지, 기본 2500회마다 출력<br><b>평균 빈칸 수</b> : 마지막까지 난수해독만 한 후 생기는 빈칸.<br><b>14빙고 실패 확률</b> : 확정해독을 포함해서 14빙고(모든 칸 채우기)를 실패하는지 계산한다.</p>
 					</div>
 					<div class="modal-footer"><slot name="footer"><button type="button" class="btn btn-default" @click="$emit('close')">OK</button></slot></div>
 					</div>
@@ -142,21 +127,25 @@ Vue.component('bingo', {
 				bing.querySelector(`tbody>tr:nth-child(${i})>td:nth-child(${l})`).setAttribute("data-value",k),k++;
 			}
 		}
-		for(i of document.querySelectorAll("input")) i.setAttribute("min","0");
 		bing.style.width="320px";
 		bing.style.height="320px";
-		for(i of (i.classList.add("border-0"),bing.querySelectorAll("tbody>tr"))){
+		for(i of bing.querySelectorAll("tbody>tr")){
 			for(var a of i.querySelectorAll("td")){
 				a.classList.add("border","border-secondary");
 				a.addEventListener("click",e=>e.target.classList.toggle("bg-warning"))
 			}
 		};
 		for(i of document.querySelectorAll(".container>div:nth-child(3)>button")) i.classList.add("my-1");
-		for(i of document.querySelectorAll(".container>div:nth-child(3)>div")){
-			i.classList.add("input-group","mt-2");
-			i.querySelector("div").classList.add("input-group-prepend");
-			if(i.querySelector("span")){i.querySelector("span").classList.add("input-group-text")}
-		};
+	},
+});
+Vue.component("depot",{
+	template:`<div class="input-group mt-2"><div class="input-group-prepend"><span class="input-group-text">{{txt}}</span></div><input type="number" class="form-control" :placeholder=place min="0" @input="changes(id)"></div>`,
+	props: ["txt","place","id"],
+	methods: {
+		changes: function(DomID){
+			var val = this.$el.querySelector("input").value,parent=this.$parent;
+			if(DomID == "day") {parent.day = val}else if(DomID == "ticket"){parent.ticket = val}else if(DomID == "d"){parent.d = val}else if(DomID == "n"){parent.n = val}else if(DomID == "show"){parent.show = val}
+		},
 	},
 });
 var app = new Vue({
@@ -174,17 +163,17 @@ var app = new Vue({
 			this.showModal = true
 		},
 		allr: function(){
-			for(i of this.el.querySelectorAll(".border-0>td")){
+			for(i of this.$el.querySelectorAll(".border")){
 				i.classList.remove("bg-warning")
 			}
 		},
 		alla: function(){
-			for(i of this.el.querySelectorAll(".border-0>td")){
+			for(i of this.$el.querySelectorAll(".border")){
 				i.classList.add("bg-warning")
 			}
 		},
 		resdel: function(){
-			this.el.getElementById("res").innerHTML=""
+			this.$el.querySelector("#res").innerHTML=""
 		},
 		run: function(){
 			// get params
