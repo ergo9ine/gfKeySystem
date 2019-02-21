@@ -21,7 +21,7 @@
 	<meta name="twitter:description" content="중복이라고 걱정하지 마세요">
 	<title>Girls' FrontLine Bingo Calculator</title>
 	<!-- Bootstrap core CSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
 	<style>
 	.modal-mask {
 		position: fixed;
@@ -106,7 +106,7 @@
 		</div>
 	</transition>
 </script>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.5/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.6/dist/vue.min.js"></script>
 <script>
 Vue.component('modal', {
 	template: '#modal-template',
@@ -119,14 +119,15 @@ Vue.component('modal', {
 Vue.component('bingo', {
 	template: '<table class="table table-dark table-hover m-auto" id="bingo"><tbody></tbody></table>',
 	mounted: function(){
-		var i,l,k=1,bing=this.$el;
+		let i,l,k=1,bing=this.$el;
 		for(i=1;i<7;i++){
 			bing.querySelector("tbody").appendChild(document.createElement("tr"));
 			for(l=1;l<7;l++){
 				bing.querySelector(`tbody>tr:nth-child(${i})`).appendChild(document.createElement("td"))
-				bing.querySelector(`tbody>tr:nth-child(${i})>td:nth-child(${l})`).setAttribute("data-value",k),k++;
+				bing.querySelector(`tbody>tr:nth-child(${i})>td:nth-child(${l})`).setAttribute("data-value",k),
+				k++
 			}
-		}
+		};
 		bing.style.width="320px";
 		bing.style.height="320px";
 		for(i of bing.querySelectorAll("tbody>tr")){
@@ -135,18 +136,33 @@ Vue.component('bingo', {
 				a.addEventListener("click",e=>e.target.classList.toggle("bg-warning"))
 			}
 		};
-		for(i of document.querySelectorAll(".container>div:nth-child(3)>button")) i.classList.add("my-1");
+		for(i of document.querySelectorAll(".container>div:nth-child(3)>button")){
+			i.classList.add("my-1")
+		}
 	},
 });
 Vue.component("depot",{
-	template:`<div class="input-group mt-2"><div class="input-group-prepend"><span class="input-group-text">{{txt}}</span></div><input type="number" class="form-control" :placeholder=place min="0" @input="changes(id)"></div>`,
+	template:`<div class="input-group mt-2">
+		<div class="input-group-prepend"><span class="input-group-text">{{txt}}</span></div>
+		<input type="number" class="form-control" :placeholder=place min="0" @input="changes(id)">
+	</div>`,
 	props: ["txt","place","id"],
 	methods: {
 		changes: function(DomID){
-			var val = this.$el.querySelector("input").value,parent=this.$parent;
-			if(DomID == "day") {parent.day = val}else if(DomID == "ticket"){parent.ticket = val}else if(DomID == "d"){parent.d = val}else if(DomID == "n"){parent.n = val}else if(DomID == "show"){parent.show = val}
-		},
-	},
+			let val = this.$el.querySelector("input").value,parent=this.$parent;
+			if(DomID == "day"){
+				parent.day = val
+			}else if(DomID == "ticket"){
+				parent.ticket = val
+			}else if(DomID == "d"){
+				parent.d = val
+			}else if(DomID == "n"){
+				parent.n = val
+			}else if(DomID == "show"){
+				parent.show = val
+			}
+		}
+	}
 });
 var app = new Vue({
 	el: "#app",
@@ -177,19 +193,19 @@ var app = new Vue({
 		},
 		run: function(){
 			// get params
-			var day=this.day||14
-				ticket=this.ticket||6
-				d=this.d||0
-				n=this.n||1e4
+			let day=this.day||14,
+				ticket=this.ticket||6,
+				d=this.d||0,
+				n=this.n||1e4,
 				show=this.show||2500,sum=0,loser=0,sum_d=0,dp=0;
 			// run
 			for(t=1;t<=n;t++){
-				var fail=0,cnt=0,ary=[];
+				let fail=0,cnt=0,ary=[],a;
 				for(i=1;i<=36;i++) ary[i]=0;
-				for(var a of document.querySelectorAll("#bingo .bg-warning")) ary[a.getAttribute("data-value")]=1,cnt++;
+				for(a of document.querySelectorAll("#bingo .bg-warning")) ary[a.getAttribute("data-value")]=1,cnt++;
 				for(i=1;i<=day*ticket&&cnt<36;i++){
 					if(cnt>=36) break;
-					var tmp=Math.floor(36*Math.random()+1);
+					let tmp=Math.floor(36*Math.random()+1);
 					1==ary[tmp]?fail++:cnt++,ary[tmp]=1
 				}
 				fail=fail+d;
@@ -198,8 +214,8 @@ var app = new Vue({
 				// print
 				t%show==0&&document.getElementById("res").insertAdjacentHTML("afterbegin",`<div class="alert alert-primary col-12" role="alert">${t}번 수행<br>평균 빈칸 수 ${36-sum/t*1|0}개<br>올빙고 실패 확률 : ${loser/t*100}%<br>앞으로 획득하게 될 중복 포인트의 평균 : ${sum_d/t*10|0}포인트</div>`)
 			}
-		},
-	},
+		}
+	}
 })
 </script>
 </body></html>
